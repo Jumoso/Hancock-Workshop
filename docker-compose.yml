@@ -1,0 +1,116 @@
+version: '2.1'
+services:
+
+  # MICROSERVICES
+  
+  hancock_dlt_adapter:
+    build:
+      context: ./hancock-dlt-adapter
+      dockerfile: ./environment/dev/Dockerfile
+    command: dev
+    volumes:
+      - ./hancock-dlt-adapter:/code
+      - ./hancock-dlt-adapter/environment/dev/scripts/:/code/scripts/
+    ports:
+      - "3004:3000"
+      - "9224:9229"
+    environment:
+      - HANCOCK_SERVER_PORT=3000
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PROTOCOL=https
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_HOST=rinkeby.infura.io/v3/f38a52a4d22e4beea42fd0a4f503c9c0
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PORT=
+      - HANCOCK_DB_USER=root
+      - HANCOCK_DB_PASS=password
+      - HANCOCK_DB_DATABASE=admin
+      - HANCOCK_DB_PORT=27017
+      - HANCOCK_DB_HOST=mongo
+      - HANCOCK_DB_ETHEREUM_DATABASE=hancock
+      - DLT_ADAPTER_LOG_LEVEL=debug
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  hancock_dlt_broker:
+    build:
+      context: ./hancock-dlt-broker
+      dockerfile: ./environment/dev/Dockerfile
+    command: dev
+    volumes:
+      - ./hancock-dlt-broker:/code
+      - ./hancock-dlt-broker/environment/dev/scripts/:/code/scripts/
+    ports:
+      - "3001:3000"
+      - "9221:9229"
+    environment:
+      - HANCOCK_SERVER_PORT=3000
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PROTOCOL=wss
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_URL=rinkeby.infura.io/ws/v3/7886ecbc3d01466396ac6df33adf5839
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PORT=
+      - HANCOCK_DB_USER=root
+      - HANCOCK_DB_PASS=password
+      - HANCOCK_DB_DATABASE=admin
+      - HANCOCK_DB_PORT=27017
+      - HANCOCK_DB_HOST=mongo
+      - HANCOCK_DB_ETHEREUM_DATABASE=hancock
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  hancock_wallet_hub:
+    build:
+      context: ./hancock-wallet-hub
+      dockerfile: ./environment/dev/Dockerfile
+    command: dev
+    volumes:
+      - ./hancock-wallet-hub:/code
+      - ./hancock-wallet-hub/environment/dev/scripts/:/code/scripts/
+    ports:
+      - "3002:3000"
+      - "9222:9229"
+    environment:
+      - HANCOCK_SERVER_HOST=hancock_wallet_hub
+      - HANCOCK_SERVER_PORT=3000
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PROTOCOL=https
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_URL=rinkeby.infura.io/v3/f38a52a4d22e4beea42fd0a4f503c9c0
+      - HANCOCK_BLOCKCHAIN_ETHEREUM_PORT=
+      - HANCOCK_DB_USER=root
+      - HANCOCK_DB_PASS=password
+      - HANCOCK_DB_DATABASE=admin
+      - HANCOCK_DB_PORT=27017
+      - HANCOCK_DB_HOST=mongo
+      - HANCOCK_DB_ETHEREUM_DATABASE=hancock
+    depends_on:
+      mongo:
+        condition: service_healthy
+  
+  # DATABASE
+
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'db.stats().ok' | mongo localhost:27017/test --quiet"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGODB_ROOT_PASSWORD=password
+    volumes:
+      - 'hancock_dlt_mongodb_data:/bitnami'
+
+  mongo-shell:
+    image: 'bitnami/mongodb:latest'
+    entrypoint: mongo --host mongo -u root -p password admin
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./hancock-dlt-adapter/environment/dev/scripts/:/scripts/adapter/      
+      # - ./hancock-dlt-broker/environment/dev/scripts/:/scripts/broker/
+      - ./hancock-wallet-hub/environment/dev/scripts/:/scripts/wallet/
+      - ./scripts/:/scripts/common/
+      - ./ddbb/:/ddbb/
+
+volumes:
+  hancock_dlt_mongodb_data:

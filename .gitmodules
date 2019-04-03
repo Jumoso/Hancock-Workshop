@@ -1,0 +1,9 @@
+[submodule "hancock-dlt-adapter"]
+	path = hancock-dlt-adapter
+	url = https://github.com/BBVA/hancock-dlt-adapter.git
+[submodule "hancock-dlt-broker"]
+	path = hancock-dlt-broker
+	url = https://github.com/BBVA/hancock-dlt-broker.git
+[submodule "hancock-wallet-hub"]
+	path = hancock-wallet-hub
+	url = https://github.com/BBVA/hancock-wallet-hub.git
