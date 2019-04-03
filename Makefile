@@ -1,4 +1,4 @@
-.PHONY: all init-submodules build-dev dev db-shell-dev db-shell-pre db-shell-pro db-shell-qa db-init-broker-dev db-init-adapter-dev db-init-wallet-dev db-init-signer-dev db-init-dev down-dev console-dev clean-dev
+.PHONY: all init-submodules build-dev dev db-shell-local db-init-broker-dev db-init-adapter-dev db-init-wallet-dev db-init-dev down-dev console-dev clean-dev
 
 YML_DEV=./docker-compose.yml
 YML_SUBMODULE=/environment/dev/docker-compose.yml

@@ -1,0 +1,22 @@
+{
+  "name": "utils-workshop",
+  "version": "1.0.0",
+  "description": "Utils",
+  "main": "index.js",
+  "dependencies": {
+    "eth-sig-util": "2.1.0",
+    "ethereumjs-tx": "^1.3.7",
+    "ethereumjs-util": "5.2.0",
+    "solc": "0.4.18",
+    "web3": "^1.0.0-beta.26",
+    "web3-provider-engine": "13.3.3"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=8.9.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "sign": "node signTransactions.js"
+  }
+}
