@@ -13,7 +13,7 @@
 		<legend>Server Location</legend>
 		<div>
 			<label>URL:</label>
-			<input type="text" id="serverUrl" value="wss://kong-hancock-qa.kickstartteam.es/v4/dlt-broker/ethereum/subscribe"/>
+			<input type="text" id="serverUrl" value="ws://localhost:3001/ethereum/subscribe"/>
 			<button id="connectButton">Open</button>
 			<button id="disconnectButton">Close</button>
 		</div>
@@ -26,7 +26,7 @@
 	<fieldset id="requestArea">
 		<legend>Request</legend>
 		<div>
-			<textarea id="sendMessage" disabled="disabled" style="margin: 0px; height: 70px; width: 340px;">{ "kind": "watch-transactions", "body": ["0xde8e772f0350e992ddef81bf8f51d94a8ea9216d", "0x6c0a14f7561898b9ddc0c57652a53b2c6665443e"] }</textarea>
+			<textarea id="sendMessage" disabled="disabled" style="margin: 0px; height: 70px; width: 340px;">{ "kind": "watch-transactions", "body": ["0x6c0a14f7561898b9ddc0c57652a53b2c6665443e"] }</textarea>
 		</div>
 		<div>
 			<button id="sendButton" disabled="disabled">Send</button>
