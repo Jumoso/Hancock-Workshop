@@ -26,7 +26,7 @@ if (!sk) {
 const dataTx = Buffer.from(data, 'base64');
 
 const privateKey = new Buffer(sk, 'hex');
-const tx = new Tx(dataTx),
+const tx = new Tx(dataTx);
 tx.sign(privateKey);
 const serializedTx = tx.serialize();
 console.log('0x' + serializedTx.toString('hex'));
