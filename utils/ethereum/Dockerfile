@@ -13,4 +13,5 @@ ENV NODE_ENV production
 # Build the app
 COPY . .
 
-ENTRYPOINT [ "yarn", "run sign" ]
+ENTRYPOINT ["npm", "run", "sign"]
+CMD ["--sk=", "--data="]

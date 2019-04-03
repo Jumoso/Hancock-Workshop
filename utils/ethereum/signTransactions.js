@@ -4,10 +4,10 @@ const Tx = require('ethereumjs-tx');
 
 let data, sk;
 process.argv.forEach((arg) => {
-    if (arg.search('--sk=') > -1) {
+    if (arg.search('sk=') > -1) {
       sk = arg.split('=')[1];
     }
-    if (arg.search('--data=') > -1) {
+    if (arg.search('data=') > -1) {
       data = arg.split('=')[1];
     }
 
@@ -23,7 +23,7 @@ if (!sk) {
   process.exit(1);
 }
 
-const dataTx = Buffer.from(data, 'base64');
+const dataTx = JSON.parse(Buffer.from(data, 'base64').toString());
 
 const privateKey = new Buffer(sk, 'hex');
 const tx = new Tx(dataTx);
