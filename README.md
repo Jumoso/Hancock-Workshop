@@ -2,8 +2,8 @@
 
 # Requirements
 
-Installed Docker version 17.12.0-ce, build c97c6d6
-Installed Docker-compose version 1.18.0, build 8dd22a9
+- Installed Docker version 17.12.0-ce, build c97c6d6
+- Installed Docker-compose version 1.18.0, build 8dd22a9
 
 Run environment
 ~~~
